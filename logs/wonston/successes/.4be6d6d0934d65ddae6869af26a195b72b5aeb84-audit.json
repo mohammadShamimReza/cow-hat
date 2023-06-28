@@ -1,0 +1,15 @@
+{
+  "keep": {
+    "days": true,
+    "amount": 14
+  },
+  "auditLog": "/home/msh/Documents/course/assaginment/l2a3-cow-hut-backend-assignment-mohammadShamimReza/logs/wonston/successes/.4be6d6d0934d65ddae6869af26a195b72b5aeb84-audit.json",
+  "files": [
+    {
+      "date": 1687413080726,
+      "name": "/home/msh/Documents/course/assaginment/l2a3-cow-hut-backend-assignment-mohammadShamimReza/logs/wonston/successes/dch-2023-22-06-06-success.log",
+      "hash": "761d8dc24c37d21e9e920d03ed292e84844130aa737f3fc35aed99a9b54adf58"
+    }
+  ],
+  "hashType": "sha256"
+}

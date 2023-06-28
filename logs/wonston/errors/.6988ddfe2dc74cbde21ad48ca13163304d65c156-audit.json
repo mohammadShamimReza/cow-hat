@@ -1,0 +1,35 @@
+{
+  "keep": {
+    "days": true,
+    "amount": 14
+  },
+  "auditLog": "/home/msh/Documents/COURSE/assaginment/digital_cat_hut/logs/wonston/errors/.6988ddfe2dc74cbde21ad48ca13163304d65c156-audit.json",
+  "files": [
+    {
+      "date": 1687189231267,
+      "name": "/home/msh/Documents/COURSE/assaginment/digital_cat_hut/logs/wonston/errors/dch-2023-19-06-06-error.log",
+      "hash": "7129eb8f65709e209bf6035ca7531dde3a075314a161cd5bfec00c5ce546a805"
+    },
+    {
+      "date": 1687410516694,
+      "name": "/home/msh/Documents/COURSE/assaginment/digital_cat_hut/logs/wonston/errors/dch-2023-22-06-06-error.log",
+      "hash": "82fe309a7179c823143055c1e969dec6261505fa2e23557999976386b9af9c1b"
+    },
+    {
+      "date": 1687491402391,
+      "name": "/home/msh/Documents/COURSE/assaginment/digital_cat_hut/logs/wonston/errors/dch-2023-23-06-06-error.log",
+      "hash": "31e2a360da6a0fbb7bc22629063331a8103a901dd3a89ad0dfd1785075f73237"
+    },
+    {
+      "date": 1687576061178,
+      "name": "/home/msh/Documents/COURSE/assaginment/digital_cat_hut/logs/wonston/errors/dch-2023-24-06-06-error.log",
+      "hash": "e43b0d67f8b4d98916d7d7a0d308a73fb8a7f1d42ca9265ffd183b3e279de683"
+    },
+    {
+      "date": 1687649863585,
+      "name": "/home/msh/Documents/COURSE/assaginment/digital_cat_hut/logs/wonston/errors/dch-2023-25-06-06-error.log",
+      "hash": "7d6d1abc29b1777c33585078ae9b311b45e2b0f6db79c6c3208b3d84a0c215f8"
+    }
+  ],
+  "hashType": "sha256"
+}
