@@ -1,8 +1,8 @@
-type ISellerName = {
+type IUserName = {
   firstName: string;
   lastName: string;
 };
-type ISellerAddress = {
+type IUserAddress = {
   division: string;
   district: string;
   area: string;
@@ -11,9 +11,9 @@ type ISellerAddress = {
 export type Iuser = {
   password: string;
   role: 'buyer' | 'seller';
-  name: ISellerName;
+  name: IUserName;
   phoneNumber: string;
-  address: ISellerAddress;
+  address: IUserAddress;
   budget: number;
   income: number;
 };
