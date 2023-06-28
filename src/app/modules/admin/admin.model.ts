@@ -3,14 +3,18 @@ import { IAdmin } from './admin.interface';
 
 const adminSchema = new Schema<IAdmin>(
   {
-    phoneNumber: { type: 'String', required: true, unique: true },
-    role: { type: 'String', required: true },
-    password: { type: 'String', required: true },
-    name: {
-      firstName: { type: 'String', required: true },
-      lastName: { type: 'String', required: true },
+    phoneNumber: { type: String, required: true, unique: true },
+    role: { type: String, required: true },
+    password: {
+      type: String,
+      required: true,
+      select: 0,
     },
-    address: { type: 'String', required: true },
+    name: {
+      firstName: { type: String, required: true },
+      lastName: { type: String, required: true },
+    },
+    address: { type: String, required: true },
   },
   {
     timestamps: true,

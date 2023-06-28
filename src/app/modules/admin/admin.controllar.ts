@@ -14,4 +14,13 @@ const createAdmin = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-export const AdminController = { createAdmin };
+const loginAdmin = null;
+//   = catchAsync(async (req: Request, res: Response) => {
+//   const adminLoginData = req.body;
+//   const result = await adminService.loginAdmin(adminLoginData);
+//   sendResponse(res, {
+
+//   })
+// })
+
+export const AdminController = { createAdmin, loginAdmin };
