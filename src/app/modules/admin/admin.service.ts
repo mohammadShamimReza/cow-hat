@@ -6,4 +6,6 @@ const createAdmin = async (adminData: IAdmin) => {
   return result;
 };
 
+
+
 export const adminService = { createAdmin };
