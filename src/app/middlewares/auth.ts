@@ -23,7 +23,7 @@ const auth =
       }
       next();
     } catch (error) {
-      next(error
+      next(error);
     }
   };
 
