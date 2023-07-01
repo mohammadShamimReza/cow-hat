@@ -5,13 +5,13 @@ import { UserValidation } from './user.validation';
 const router = express.Router();
 
 router.post(
-  '/auth/signup',
+  '/signup',
   validateRequest(UserValidation.createUserZodSchema),
   UserController.createUser
 );
-router.get('/users/:id', UserController.getSingleUser);
-router.get('/users', UserController.getUsers);
-router.patch('/users/:id', UserController.updateUser);
-router.delete('/users/:id', UserController.deleteUser);
+router.get('/:id', UserController.getSingleUser);
+router.get('/', UserController.getUsers);
+router.patch('/:id', UserController.updateUser);
+router.delete('/:id', UserController.deleteUser);
 
 export const UserRouter = router;

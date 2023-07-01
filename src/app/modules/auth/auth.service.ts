@@ -1,8 +1,8 @@
 import { IUserLogin } from './auth.interface';
 
 const loginUser = (LoginData: IUserLogin) => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { phoneNumber, password } = LoginData;
+  console.log(phoneNumber, password);
 };
 
 export const authService = { loginUser };

@@ -10,3 +10,5 @@ router.post(
   validateRequest(authValidation.loginZodSchema),
   AuthController.loginUser
 );
+
+export const AuthRoute = router;
