@@ -24,7 +24,7 @@ const loginAdmin = catchAsync(async (req: Request, res: Response) => {
     secure: config.env === 'production',
     httpOnly: true,
   };
-  res.cookie('adminRefreshToken', refreshToken, cookieOption);
+  res.cookie('refreshToken', refreshToken, cookieOption);
   sendResponse(res, {
     success: true,
     statusCode: 200,

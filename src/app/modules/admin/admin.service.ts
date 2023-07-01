@@ -28,14 +28,14 @@ const loginAdmin = async (LoginData: ILogin) => {
     throw new ApiError(httpStatus.NOT_FOUND, 'Password not valid');
   }
 
-  const { _id: adminId, role } = isAdminExist;
+  const { _id, role } = isAdminExist;
   const accessToken = jwtHelpers.createToken(
-    { adminId, role },
+    { _id, role },
     config.jwt.secret as Secret,
     config.jwt.expire_in as string
   );
   const refreshToken = jwtHelpers.createToken(
-    { adminId, role },
+    { _id, role },
     config.jwt.refresh_secret as Secret,
     config.jwt.refresh_expire_in as string
   );
