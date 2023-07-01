@@ -6,4 +6,5 @@ const authSchema = new Schema<IUserLogin>({
   password: { type: String, required: true },
 });
 
+
 export const Auth = model<IUserLogin>('Auth', authSchema);

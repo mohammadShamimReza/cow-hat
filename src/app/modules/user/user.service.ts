@@ -5,6 +5,7 @@ import { User } from './user.model';
 
 const createUser = async (parems: Iuser) => {
   const result = await User.create(parems);
+
   return result;
 };
 

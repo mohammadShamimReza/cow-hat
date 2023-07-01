@@ -1,3 +1,5 @@
+import { Model } from 'mongoose';
+
 type IUserName = {
   firstName: string;
   lastName: string;
@@ -18,4 +20,10 @@ export type Iuser = {
   income: number;
 };
 
-// export type UserModel = Model<Iuser>;
+export type UserModel = {
+  isUserExist(phoneNumber: string): any;
+  isPasswordValid(
+    givenPassword: string,
+    savedPassword: string
+  ): Promise<boolean>;
+} & Model<Iuser>;
