@@ -1,4 +1,6 @@
 import express from 'express';
+import { ENUM_USER_ROLE } from '../../../enums/user';
+import auth from '../../middlewares/auth';
 import validateRequest from '../../middlewares/validateRequest';
 import { UserController } from './user.controllar';
 import { UserValidation } from './user.validation';
@@ -9,9 +11,9 @@ router.post(
   validateRequest(UserValidation.createUserZodSchema),
   UserController.createUser
 );
-router.get('/:id', UserController.getSingleUser);
-router.get('/', UserController.getUsers);
-router.patch('/:id', UserController.updateUser);
-router.delete('/:id', UserController.deleteUser);
+router.get('/:id', auth(ENUM_USER_ROLE.ADMIN), UserController.getSingleUser);
+router.get('/', auth(ENUM_USER_ROLE.ADMIN), UserController.getUsers);
+router.patch('/:id', auth(ENUM_USER_ROLE.ADMIN), UserController.updateUser);
+router.delete('/:id', auth(ENUM_USER_ROLE.ADMIN), UserController.deleteUser);
 
 export const UserRouter = router;
