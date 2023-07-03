@@ -7,6 +7,10 @@ const orderSchema = new Schema<IOrder>({
     ref: 'Cows',
     // required: true,
   },
+  seller: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+  },
   buyer: {
     type: Schema.Types.ObjectId,
     ref: 'User',

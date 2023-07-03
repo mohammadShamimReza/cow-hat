@@ -27,4 +27,20 @@ const getOrder = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-export const OrderControllar = { makeOrder, getOrder };
+const getSingleOrder = catchAsync(async (req: Request, res: Response) => {
+  const accessToken = req.headers.authorization;
+
+  const orderId = req.params.id;
+  const result = await OrderService.getSingleOrder(
+    orderId,
+    accessToken as string
+  );
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Orderd information retrived  successfully',
+    data: result,
+  });
+});
+
+export const OrderControllar = { makeOrder, getOrder, getSingleOrder };

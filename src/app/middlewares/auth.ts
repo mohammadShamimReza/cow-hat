@@ -15,7 +15,7 @@ const auth =
       }
       let varifiedUser = null;
       varifiedUser = jwtHelpers.varifyToken(token, config.jwt.secret as Secret);
-
+      console.log(varifiedUser);
       req.user = varifiedUser;
 
       if (requiredRoles.length && !requiredRoles.includes(varifiedUser.role)) {

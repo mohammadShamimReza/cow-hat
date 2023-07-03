@@ -1,6 +1,9 @@
 import httpStatus from 'http-status';
+import { Secret } from 'jsonwebtoken';
 import mongoose from 'mongoose';
+import config from '../../../config';
 import ApiError from '../../../errors/ApiError';
+import { jwtHelpers } from '../../../helper/jwtHelpers';
 import { Cows } from '../cow/cow.model';
 import { User } from '../user/user.model';
 import { IOrder } from './order.interface';
@@ -70,4 +73,32 @@ const getOrder = async () => {
   return result;
 };
 
-export const OrderService = { makeOrder, getOrder };
+const getSingleOrder = async (orderId: string, accessToken: string) => {
+  const accessInfo = jwtHelpers.varifyToken(
+    accessToken,
+    config.jwt.secret as Secret
+  );
+  const { _id, role } = accessInfo;
+  console.log(_id, role);
+  let result;
+  if (role === 'admin') {
+    result = await Order.findById(orderId).populate(['cow', 'seller', 'buyer']);
+  } else if (role === 'buyer') {
+    result = await Order.find({ _id: orderId, buyer: { _id: _id } }).populate([
+      'cow',
+      'seller',
+      'buyer',
+    ]);
+  } else if (role === 'seller') {
+    result = await Order.find({ _id: orderId, buyer: { _id: _id } }).populate([
+      'cow',
+      'seller',
+      'buyer',
+    ]);
+  } else {
+    throw new ApiError(httpStatus.FORBIDDEN, 'you are not allowed ');
+  }
+  return result;
+};
+
+export const OrderService = { makeOrder, getOrder, getSingleOrder };
