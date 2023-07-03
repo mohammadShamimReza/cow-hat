@@ -1,28 +1,37 @@
-# Project Name
+# cow_hat_with_auth
 
 Short description of your project.
 
 ## Live Link
 
-[https://digital-cat-hut.vercel.app/](https://digital-cat-hut.vercel.app/)
+[https://cow-hat-with-auth-alpha.vercel.app/api/v1/]
 
 ## Application Routes
 
+### Auth(User)
+- `POST`  https://cow-hat-with-auth-alpha.vercel.app/api/v1/auth/login
+- `POST`  https://cow-hat-with-auth-alpha.vercel.app/api/v1/auth/signup
+- `POST`  https://cow-hat-with-auth-alpha.vercel.app/api/v1/auth/refresh-toke
+
+
+### Auth(Admin)
+- `POST`  https://cow-hat-with-auth-alpha.vercel.app/api/v1/admins/create-admin
+- `POST`  https://cow-hat-with-auth-alpha.vercel.app/api/v1/admins/login
+
 ### User
 
-- `POST` https://digital-cat-hut.vercel.app/api/v1/auth/signup
 - `GET` https://digital-cat-hut.vercel.app/api/v1/users
-- `GET` https://digital-cat-hut.vercel.app/api/v1/users/64957b5d516f178cdfef1906 (Single GET, include an ID saved in your database)
-- `PATCH` https://digital-cat-hut.vercel.app/api/v1/users/64957b5d516f178cdfef1906 (include an ID saved in your database)
-- `DELETE` https://digital-cat-hut.vercel.app/api/v1/users/64957b5d516f178cdfef1906 (include an ID saved in your database)
+- `GET` https://digital-cat-hut.vercel.app/api/v1/users/64a2668bf66f680d36e8282f 
+- `PATCH` https://digital-cat-hut.vercel.app/api/v1/users/64a2362cc137393f7160130a 
+- `DELETE` https://digital-cat-hut.vercel.app/api/v1/users/64a007a691a746eb936052b3 
 
 ### Cows
 
 - `POST` https://digital-cat-hut.vercel.app/api/v1/cows
 - `GET` https://digital-cat-hut.vercel.app/api/v1/cows
-- `GET` https://digital-cat-hut.vercel.app/api/v1/cows/6495ba7ac960573243f7e551 (Single GET, include an ID saved in your database)
+- `GET` https://digital-cat-hut.vercel.app/api/v1/cows/6496961a956a69bac0d74847 (Single GET, include an ID saved in your database)
 - `PATCH` https://digital-cat-hut.vercel.app/api/v1/cows/6495ba7ac960573243f7e551 (include an ID saved in your database)
-- `DELETE` https://digital-cat-hut.vercel.app/api/v1/cows/6495ba7ac960573243f7e551 (include an ID saved in your database)
+- `DELETE` https://digital-cat-hut.vercel.app/api/v1/cows/6496e38f32cb4ddc26f9abaf (include an ID saved in your database)
 
 ### Pagination and Filtering routes of Cows
 
@@ -36,6 +45,15 @@ Short description of your project.
 
 - `POST` https://digital-cat-hut.vercel.app/api/v1/orders
 - `GET` https://digital-cat-hut.vercel.app/api/v1/orders
+
+### My profile
+
+- `GET` https://digital-cat-hut.vercel.app/api/v1/users/my-profile
+- `PATCH` https://digital-cat-hut.vercel.app/api/v1/users/my-profile
+
+### Order
+
+- `GET` https://digital-cat-hut.vercel.app/api/v1/orders/64a26b3e8c5a4c9cd9fde715
 
 ## Installation
 

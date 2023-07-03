@@ -14,12 +14,10 @@ const user_model_1 = require("../user/user.model");
 const order_model_1 = require("./order.model");
 const makeOrder = async (orderData) => {
     const { cow, buyer } = orderData;
-    console.log(cow, buyer);
     const [cowExist, buyerExist] = await Promise.all([
         cow_model_1.Cows.findById(cow).populate('seller').exec(),
         user_model_1.User.findOne({ _id: buyer, role: 'buyer' }, 'budget'),
     ]);
-    console.log(cowExist);
     if (!cowExist) {
         throw new ApiError_1.default(http_status_1.default.NOT_FOUND, 'Cow not found');
     }
@@ -33,15 +31,13 @@ const makeOrder = async (orderData) => {
     const session = await mongoose_1.default.startSession();
     session.startTransaction();
     try {
-        console.log(cowExist.price, buyerBudget);
         if (cowExist.price <= buyerBudget) {
-            console.log('Go ahead with the purchase');
             const price = cowExist.price;
             await Promise.all([
                 user_model_1.User.findByIdAndUpdate(cowExist.seller, { $inc: { income: price } }, { session }),
                 user_model_1.User.findByIdAndUpdate(buyer, { $inc: { budget: -price } }, { session }),
             ]);
-            const result = await order_model_1.Order.create(orderData, { session });
+            const result = await order_model_1.Order.create([orderData], { session });
             await cow_model_1.Cows.findByIdAndUpdate(cow, { label: 'sold out' }, { session });
             await session.commitTransaction();
             await session.endSession();
@@ -63,21 +59,20 @@ const getOrder = async () => {
 };
 const getSingleOrder = async (orderId, accessToken) => {
     const accessInfo = jwtHelpers_1.jwtHelpers.varifyToken(accessToken, config_1.default.jwt.secret);
-    const { _id, role } = accessInfo;
-    console.log(_id, role);
+    const { role } = accessInfo;
     let result;
     if (role === 'admin') {
         result = await order_model_1.Order.findById(orderId).populate(['cow', 'seller', 'buyer']);
     }
     else if (role === 'buyer') {
-        result = await order_model_1.Order.find({ _id: orderId, buyer: { _id: _id } }).populate([
+        result = await order_model_1.Order.find({ _id: orderId }).populate([
             'cow',
             'seller',
             'buyer',
         ]);
     }
     else if (role === 'seller') {
-        result = await order_model_1.Order.find({ _id: orderId, buyer: { _id: _id } }).populate([
+        result = await order_model_1.Order.find({ _id: orderId }).populate([
             'cow',
             'seller',
             'buyer',
@@ -85,6 +80,9 @@ const getSingleOrder = async (orderId, accessToken) => {
     }
     else {
         throw new ApiError_1.default(http_status_1.default.FORBIDDEN, 'you are not allowed ');
+    }
+    if (!result) {
+        throw new ApiError_1.default(http_status_1.default.NOT_FOUND, 'not found');
     }
     return result;
 };

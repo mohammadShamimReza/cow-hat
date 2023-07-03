@@ -11,13 +11,11 @@ import { Order } from './order.model';
 
 const makeOrder = async (orderData: IOrder) => {
   const { cow, buyer } = orderData;
-  console.log(cow, buyer);
   const [cowExist, buyerExist] = await Promise.all([
     Cows.findById(cow).populate('seller').exec(),
     User.findOne({ _id: buyer, role: 'buyer' }, 'budget'),
   ]);
 
-  console.log(cowExist);
   if (!cowExist) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Cow not found');
   }
@@ -31,11 +29,8 @@ const makeOrder = async (orderData: IOrder) => {
 
   const session = await mongoose.startSession();
   session.startTransaction();
-
   try {
-    console.log(cowExist.price, buyerBudget);
     if (cowExist.price <= buyerBudget) {
-      console.log('Go ahead with the purchase');
       const price = cowExist.price;
       await Promise.all([
         User.findByIdAndUpdate(
@@ -50,7 +45,7 @@ const makeOrder = async (orderData: IOrder) => {
         ),
       ]);
 
-      const result = await Order.create(orderData, { session });
+      const result = await Order.create([orderData], { session });
 
       await Cows.findByIdAndUpdate(cow, { label: 'sold out' }, { session });
 
@@ -78,19 +73,18 @@ const getSingleOrder = async (orderId: string, accessToken: string) => {
     accessToken,
     config.jwt.secret as Secret
   );
-  const { _id, role } = accessInfo;
-  console.log(_id, role);
+  const { role } = accessInfo;
   let result;
   if (role === 'admin') {
     result = await Order.findById(orderId).populate(['cow', 'seller', 'buyer']);
   } else if (role === 'buyer') {
-    result = await Order.find({ _id: orderId, buyer: { _id: _id } }).populate([
+    result = await Order.find({ _id: orderId }).populate([
       'cow',
       'seller',
       'buyer',
     ]);
   } else if (role === 'seller') {
-    result = await Order.find({ _id: orderId, buyer: { _id: _id } }).populate([
+    result = await Order.find({ _id: orderId }).populate([
       'cow',
       'seller',
       'buyer',
@@ -98,6 +92,11 @@ const getSingleOrder = async (orderId: string, accessToken: string) => {
   } else {
     throw new ApiError(httpStatus.FORBIDDEN, 'you are not allowed ');
   }
+
+  if (!result) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'not found');
+  }
+
   return result;
 };
 
