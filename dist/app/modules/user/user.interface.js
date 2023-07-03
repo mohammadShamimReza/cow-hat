@@ -1,3 +1,2 @@
-'use strict';
-Object.defineProperty(exports, '__esModule', { value: true });
-// export type UserModel = Model<Iuser>;
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
