@@ -11,8 +11,16 @@ router.post(
   validateRequest(UserValidation.createUserZodSchema),
   UserController.createUser
 );
-router.get('/my-profile', UserController.getProfile);
-router.patch('/my-profile', UserController.updateProfile);
+router.get(
+  '/my-profile',
+  auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.BUYER, ENUM_USER_ROLE.SELLER),
+  UserController.getProfile
+);
+router.patch(
+  '/my-profile',
+  auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.BUYER, ENUM_USER_ROLE.SELLER),
+  UserController.updateProfile
+);
 
 router.get('/:id', auth(ENUM_USER_ROLE.ADMIN), UserController.getSingleUser);
 router.get('/', auth(ENUM_USER_ROLE.ADMIN), UserController.getUsers);
