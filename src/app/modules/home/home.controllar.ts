@@ -4,7 +4,7 @@ import catchAsync from '../../../shared/catchAsync';
 import sendResponse from '../../../shared/sendResponse';
 
 const getHome = catchAsync(async (req: Request, res: Response) => {
-  const result = 'app is running successfully wiht route';
+  const result = 'app is running successfully with route';
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
