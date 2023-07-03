@@ -55,6 +55,28 @@ const getProfile = async (accessToekn: string) => {
   return result;
 };
 
+const updateProfile = async (
+  accessToekn: string,
+  updateUserData: Partial<Iuser>
+) => {
+  const accessInfo = jwtHelpers.varifyToken(
+    accessToekn,
+    config.jwt.secret as Secret
+  );
+  const { _id, role } = accessInfo;
+
+  const result = await User.findOneAndUpdate({ _id, role }, updateUserData, {
+    projection: {
+      password: 0,
+      _id: 0,
+      createdAt: 0,
+      updatedAt: 0,
+    },
+    new: true,
+  });
+  return result;
+};
+
 export const UserService = {
   createUser,
   getUsers,
@@ -65,4 +87,5 @@ export const UserService = {
   //profile
 
   getProfile,
+  updateProfile,
 };

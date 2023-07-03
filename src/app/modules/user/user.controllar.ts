@@ -81,6 +81,23 @@ const getProfile = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const updateProfile = catchAsync(async (req: Request, res: Response) => {
+  const accessToken = req.headers.authorization;
+  const userUpdateData = req.body;
+  const result = await UserService.updateProfile(
+    accessToken as string,
+    userUpdateData
+  );
+  // const result = accessToken;
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "User's profile update successfully",
+    data: result,
+  });
+});
+
 export const UserController = {
   createUser,
   getUsers,
@@ -90,4 +107,5 @@ export const UserController = {
 
   // profile
   getProfile,
+  updateProfile,
 };

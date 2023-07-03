@@ -12,6 +12,7 @@ router.post(
   UserController.createUser
 );
 router.get('/my-profile', UserController.getProfile);
+router.patch('/my-profile', UserController.updateProfile);
 
 router.get('/:id', auth(ENUM_USER_ROLE.ADMIN), UserController.getSingleUser);
 router.get('/', auth(ENUM_USER_ROLE.ADMIN), UserController.getUsers);
