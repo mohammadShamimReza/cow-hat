@@ -4,6 +4,7 @@ import catchAsync from '../../../shared/catchAsync';
 import sendResponse from '../../../shared/sendResponse';
 import { UserService } from './user.service';
 
+
 const createUser: RequestHandler = catchAsync(
   async (req: Request, res: Response) => {
     const userData = req.body;
@@ -66,10 +67,27 @@ const deleteUser = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
+
+const getProfile = catchAsync(async (req: Request, res: Response) => {
+  const accessToken = req.headers.authorization;
+  const result = await UserService.getProfile(accessToken as string);
+  // const result = accessToken;
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "User's information retrived successfully",
+    data: result,
+  });
+});
+
 export const UserController = {
   createUser,
   getUsers,
   getSingleUser,
   updateUser,
   deleteUser,
+
+  // profile
+  getProfile,
 };
