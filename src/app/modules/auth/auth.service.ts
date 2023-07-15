@@ -47,7 +47,7 @@ const refreshToken = async (token: string) => {
   );
 
   const { _id, role } = varifiedToken;
-  const isUserExist = await User.findOne(_id);
+  const isUserExist = await User.findOne({_id: _id});
   if (!isUserExist) {
     throw new ApiError(httpStatus.NOT_FOUND, 'User does not exist');
   }
