@@ -4,18 +4,14 @@ type IUserName = {
   firstName: string;
   lastName: string;
 };
-type IUserAddress = {
-  division: string;
-  district: string;
-  area: string;
-};
+
 
 export type Iuser = {
   password: string;
   role: 'buyer' | 'seller';
   name: IUserName;
   phoneNumber: string;
-  address: IUserAddress;
+  address: string;
   budget: number;
   income: number;
 };

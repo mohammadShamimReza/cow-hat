@@ -1,7 +1,7 @@
 import express from 'express';
 import validateRequest from '../../middlewares/validateRequest';
 import { AuthController } from './auth.controllar';
-import { authValidation } from './auth.validation';
+import { UserValidation, authValidation } from './auth.validation';
 
 const router = express.Router();
 
@@ -11,9 +11,16 @@ router.post(
   AuthController.loginUser
 );
 router.post(
+  '/signup',
+  validateRequest(UserValidation.createUserZodSchema),
+  AuthController.createUser
+);
+router.post(
   '/refresh-token',
   validateRequest(authValidation.refreshTokenZodSchema),
   AuthController.refreshToken
 );
+
+router.get('/todo', AuthController.todo);
 
 export const AuthRoute = router;

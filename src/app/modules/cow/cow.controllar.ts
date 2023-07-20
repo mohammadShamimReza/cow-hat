@@ -27,7 +27,7 @@ const getCows = catchAsync(async (req: Request, res: Response) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Cow created successfully',
+    message: 'Cow get successfully',
     data: result,
   });
 });

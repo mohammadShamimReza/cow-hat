@@ -30,18 +30,8 @@ const userSchema = new Schema<Iuser, UserModel>(
       unique: true,
     },
     address: {
-      division: {
-        type: String,
-        required: true,
-      },
-      district: {
-        type: String,
-        required: true,
-      },
-      area: {
-        type: String,
-        required: true,
-      },
+      type: String,
+      required: true,
     },
     budget: {
       type: Number,

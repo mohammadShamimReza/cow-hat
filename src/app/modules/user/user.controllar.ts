@@ -1,24 +1,8 @@
-import { Request, RequestHandler, Response } from 'express';
+import { Request, Response } from 'express';
 import httpStatus from 'http-status';
 import catchAsync from '../../../shared/catchAsync';
 import sendResponse from '../../../shared/sendResponse';
 import { UserService } from './user.service';
-
-
-const createUser: RequestHandler = catchAsync(
-  async (req: Request, res: Response) => {
-    const userData = req.body;
-
-    const result = await UserService.createUser(userData);
-
-    sendResponse(res, {
-      statusCode: httpStatus.OK,
-      success: true,
-      message: 'User created successfully',
-      data: result,
-    });
-  }
-);
 
 const getUsers = catchAsync(async (req: Request, res: Response) => {
   const result = await UserService.getUsers();
@@ -33,7 +17,9 @@ const getUsers = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getSingleUser = catchAsync(async (req: Request, res: Response) => {
-  const result = await UserService.getSingleUser(req.params.id);
+  const token = req.user;
+
+  const result = await UserService.getSingleUser(req.params.id, token);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -46,7 +32,8 @@ const getSingleUser = catchAsync(async (req: Request, res: Response) => {
 const updateUser = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id;
   const updatedData = req.body;
-  const result = await UserService.updateUser(id, updatedData);
+  const token = req.user;
+  const result = await UserService.updateUser(id, updatedData, token);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -58,7 +45,8 @@ const updateUser = catchAsync(async (req: Request, res: Response) => {
 
 const deleteUser = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id;
-  const result = await UserService.deleteUser(id);
+  const token = req.user;
+  const result = await UserService.deleteUser(id, token);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -99,7 +87,6 @@ const updateProfile = catchAsync(async (req: Request, res: Response) => {
 });
 
 export const UserController = {
-  createUser,
   getUsers,
   getSingleUser,
   updateUser,

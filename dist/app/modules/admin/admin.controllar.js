@@ -30,7 +30,7 @@ const loginAdmin = (0, catchAsync_1.default)(async (req, res) => {
     (0, sendResponse_1.default)(res, {
         success: true,
         statusCode: 200,
-        message: 'User logged in successfully',
+        message: 'Admin logged in successfully',
         data: {
             accessToken: accessToken,
         },

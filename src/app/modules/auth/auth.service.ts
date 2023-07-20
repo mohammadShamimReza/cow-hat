@@ -3,6 +3,7 @@ import { Secret } from 'jsonwebtoken';
 import config from '../../../config';
 import ApiError from '../../../errors/ApiError';
 import { jwtHelpers } from '../../../helper/jwtHelpers';
+import { Iuser } from '../user/user.interface';
 import { User } from '../user/user.model';
 import { IUserLogin } from './auth.interface';
 
@@ -39,6 +40,12 @@ const loginUser = async (LoginData: IUserLogin) => {
   };
 };
 
+const createUser = async (parems: Iuser) => {
+  const result = await User.create(parems);
+
+  return result;
+};
+
 const refreshToken = async (token: string) => {
   let varifiedToken = null;
   varifiedToken = jwtHelpers.varifyToken(
@@ -65,4 +72,4 @@ const refreshToken = async (token: string) => {
   };
 };
 
-export const authService = { loginUser, refreshToken };
+export const authService = { loginUser, createUser, refreshToken };

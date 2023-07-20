@@ -17,14 +17,7 @@ const createUserZodSchema = z.object({
         { required_error: 'Name is required' }
       ),
       phoneNumber: z.string({ required_error: 'phoneNumber is required' }),
-      address: z.object(
-        {
-          division: z.string({ required_error: 'division is required' }),
-          district: z.string({ required_error: 'district is required' }),
-          area: z.string({ required_error: 'area is required' }),
-        },
-        { required_error: 'Address is required' }
-      ),
+      address: z.string({ required_error: 'Address is required' }),
       budget: z.number({ required_error: 'budget is required' }),
       income: z.number({ required_error: 'income is required' }),
     },

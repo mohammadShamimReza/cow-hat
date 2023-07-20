@@ -31,7 +31,7 @@ const refreshToken = async (token) => {
     let varifiedToken = null;
     varifiedToken = jwtHelpers_1.jwtHelpers.varifyToken(token, config_1.default.jwt.refresh_secret);
     const { _id, role } = varifiedToken;
-    const isUserExist = await user_model_1.User.findOne(_id);
+    const isUserExist = await user_model_1.User.findOne({ _id: _id });
     if (!isUserExist) {
         throw new ApiError_1.default(http_status_1.default.NOT_FOUND, 'User does not exist');
     }

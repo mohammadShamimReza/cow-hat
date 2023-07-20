@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { Request, RequestHandler, Response } from 'express';
 import httpStatus from 'http-status';
 import config from '../../../config';
 import catchAsync from '../../../shared/catchAsync';
@@ -25,6 +25,21 @@ const loginUser = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const createUser: RequestHandler = catchAsync(
+  async (req: Request, res: Response) => {
+    const userData = req.body;
+    console.log(userData);
+    const result = await authService.createUser(userData);
+
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'User created successfully',
+      data: result,
+    });
+  }
+);
+
 const refreshToken = catchAsync(async (req: Request, res: Response) => {
   const { refreshToken } = req.cookies;
   const result = await authService.refreshToken(refreshToken);
@@ -43,4 +58,14 @@ const refreshToken = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-export const AuthController = { loginUser, refreshToken };
+const todo = catchAsync(async (req: Request, res: Response) => {
+  const result = 'this is a test';
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'User logged in successfully',
+    data: result,
+  });
+});
+
+export const AuthController = { loginUser, createUser, refreshToken, todo };
