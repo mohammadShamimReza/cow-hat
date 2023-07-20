@@ -63,16 +63,24 @@ const getSingleCow = async (id) => {
     const result = await cow_model_1.Cows.find({ _id: id });
     return result;
 };
-const updateSingleCow = async (id, updateCow) => {
-    const result = await cow_model_1.Cows.find({ _id: id }, updateCow);
-    return result;
-};
-const deleteCow = async (id) => {
+const updateSingleCow = async (id, updateCow, token) => {
     const ifExist = await cow_model_1.Cows.findById({ _id: id });
     if (!ifExist) {
         throw new ApiError_1.default(http_status_1.default.NOT_FOUND, 'cow not found');
     }
-    const result = await cow_model_1.Cows.findByIdAndDelete({ _id: id });
+    const _id = token?._id;
+    console.log(_id);
+    const result = await cow_model_1.Cows.findOneAndUpdate({ _id: id, seller: _id }, updateCow, { new: true });
+    console.log(result);
+    return result;
+};
+const deleteCow = async (id, token) => {
+    const ifExist = await cow_model_1.Cows.findById({ _id: id });
+    if (!ifExist) {
+        throw new ApiError_1.default(http_status_1.default.NOT_FOUND, 'cow not found');
+    }
+    const _id = token?._id;
+    const result = await cow_model_1.Cows.findOneAndDelete({ _id: id, seller: _id });
     return result;
 };
 exports.cowService = {
