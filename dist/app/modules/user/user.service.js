@@ -9,32 +9,43 @@ const config_1 = __importDefault(require("../../../config"));
 const ApiError_1 = __importDefault(require("../../../errors/ApiError"));
 const jwtHelpers_1 = require("../../../helper/jwtHelpers");
 const user_model_1 = require("./user.model");
-const createUser = async (parems) => {
-    const result = await user_model_1.User.create(parems);
-    return result;
-};
 const getUsers = async () => {
     const result = await user_model_1.User.find({});
     return result;
 };
-const getSingleUser = async (id) => {
-    const result = await user_model_1.User.find({ _id: id });
-    return result;
-};
-const updateUser = async (id, updatedData) => {
+const getSingleUser = async (id, token) => {
     const ifExists = await user_model_1.User.findOne({ _id: id });
     if (!ifExists) {
         throw new ApiError_1.default(http_status_1.default.NOT_FOUND, 'User not found');
+    }
+    if (token?.role !== ifExists.role && token?.role !== 'admin') {
+        throw new ApiError_1.default(http_status_1.default.NOT_FOUND, 'you are not authorized');
+    }
+    const result = await user_model_1.User.find({ _id: id });
+    return result;
+};
+const updateUser = async (id, updatedData, token) => {
+    const ifExists = await user_model_1.User.findOne({ _id: id });
+    if (!ifExists) {
+        throw new ApiError_1.default(http_status_1.default.NOT_FOUND, 'User not found');
+    }
+    if (token?.role !== ifExists.role &&
+        token?.role !== 'admin' &&
+        token?._id !== id) {
+        throw new ApiError_1.default(http_status_1.default.NOT_FOUND, 'you are not authorized');
     }
     const result = await user_model_1.User.findOneAndUpdate({ _id: id }, updatedData, {
         new: true,
     });
     return result;
 };
-const deleteUser = async (id) => {
+const deleteUser = async (id, token) => {
     const ifExists = await user_model_1.User.findOne({ _id: id });
     if (!ifExists) {
         throw new ApiError_1.default(http_status_1.default.NOT_FOUND, 'User not found');
+    }
+    if (token?.role !== ifExists.role && token?.role !== 'admin') {
+        throw new ApiError_1.default(http_status_1.default.NOT_FOUND, 'you are not authorized');
     }
     const result = await user_model_1.User.findOneAndDelete({ _id: id });
     return result;
@@ -60,7 +71,6 @@ const updateProfile = async (accessToekn, updateUserData) => {
     return result;
 };
 exports.UserService = {
-    createUser,
     getUsers,
     getSingleUser,
     updateUser,

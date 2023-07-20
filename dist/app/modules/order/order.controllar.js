@@ -29,9 +29,9 @@ const getOrder = (0, catchAsync_1.default)(async (req, res) => {
     });
 });
 const getSingleOrder = (0, catchAsync_1.default)(async (req, res) => {
-    const accessToken = req.headers.authorization;
+    const token = req.user;
     const orderId = req.params.id;
-    const result = await order_service_1.OrderService.getSingleOrder(orderId, accessToken);
+    const result = await order_service_1.OrderService.getSingleOrder(orderId, token);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,

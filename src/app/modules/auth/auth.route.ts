@@ -21,6 +21,6 @@ router.post(
   AuthController.refreshToken
 );
 
-router.get('/todo', AuthController.todo);
+router.get('/', AuthController.todo);
 
 export const AuthRoute = router;

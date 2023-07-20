@@ -15,7 +15,6 @@ const auth = (...requiredRoles) => async (req, res, next) => {
         }
         let varifiedUser = null;
         varifiedUser = jwtHelpers_1.jwtHelpers.varifyToken(token, config_1.default.jwt.secret);
-        console.log(varifiedUser);
         req.user = varifiedUser;
         if (requiredRoles.length && !requiredRoles.includes(varifiedUser.role)) {
             throw new ApiError_1.default(http_status_1.default.FORBIDDEN, 'you are forbidden');

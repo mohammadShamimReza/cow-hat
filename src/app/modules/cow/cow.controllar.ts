@@ -48,7 +48,8 @@ const getSingleCow = catchAsync(async (req: Request, res: Response) => {
 const updateSingleCow = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id;
   const updateCow = req.body;
-  const result = await cowService.updateSingleCow(id, updateCow);
+  const token = req.user;
+  const result = await cowService.updateSingleCow(id, updateCow, token);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -59,8 +60,9 @@ const updateSingleCow = catchAsync(async (req: Request, res: Response) => {
 
 const deleteCow = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id;
+  const token = req.user;
 
-  const result = await cowService.deleteCow(id);
+  const result = await cowService.deleteCow(id, token);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,

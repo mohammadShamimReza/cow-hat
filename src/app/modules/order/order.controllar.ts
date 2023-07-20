@@ -28,13 +28,10 @@ const getOrder = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getSingleOrder = catchAsync(async (req: Request, res: Response) => {
-  const accessToken = req.headers.authorization;
+  const token = req.user;
 
   const orderId = req.params.id;
-  const result = await OrderService.getSingleOrder(
-    orderId,
-    accessToken as string
-  );
+  const result = await OrderService.getSingleOrder(orderId, token);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,

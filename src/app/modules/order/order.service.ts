@@ -1,9 +1,7 @@
 import httpStatus from 'http-status';
-import { Secret } from 'jsonwebtoken';
+import { JwtPayload } from 'jsonwebtoken';
 import mongoose from 'mongoose';
-import config from '../../../config';
 import ApiError from '../../../errors/ApiError';
-import { jwtHelpers } from '../../../helper/jwtHelpers';
 import { Cows } from '../cow/cow.model';
 import { User } from '../user/user.model';
 import { IOrder } from './order.interface';
@@ -68,23 +66,35 @@ const getOrder = async () => {
   return result;
 };
 
-const getSingleOrder = async (orderId: string, accessToken: string) => {
-  const accessInfo = jwtHelpers.varifyToken(
-    accessToken,
-    config.jwt.secret as Secret
-  );
-  const { role } = accessInfo;
+const getSingleOrder = async (orderId: string, token: JwtPayload | null) => {
+  const id = token?._id;
+  const role = token?.role;
+
   let result;
+
   if (role === 'admin') {
     result = await Order.findById(orderId).populate(['cow', 'seller', 'buyer']);
-  } else if (role === 'buyer') {
-    result = await Order.find({ _id: orderId }).populate([
+    return result;
+  }
+  const ifExists = await User.findById(id);
+
+  if (!ifExists) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
+  }
+
+  if (role !== ifExists.role && role !== 'admin') {
+    throw new ApiError(httpStatus.NOT_FOUND, 'you are not authorized');
+  }
+
+  if (role === 'buyer') {
+    console.log(role, id);
+    result = await Order.find({ buyer: id }).populate([
       'cow',
       'seller',
       'buyer',
     ]);
   } else if (role === 'seller') {
-    result = await Order.find({ _id: orderId }).populate([
+    result = await Order.find({ seller: id }).populate([
       'cow',
       'seller',
       'buyer',
@@ -96,7 +106,7 @@ const getSingleOrder = async (orderId: string, accessToken: string) => {
   if (!result) {
     throw new ApiError(httpStatus.NOT_FOUND, 'not found');
   }
-
+  console.log(result);
   return result;
 };
 

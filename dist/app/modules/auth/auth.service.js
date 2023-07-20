@@ -27,6 +27,10 @@ const loginUser = async (LoginData) => {
         refreshToken,
     };
 };
+const createUser = async (parems) => {
+    const result = await user_model_1.User.create(parems);
+    return result;
+};
 const refreshToken = async (token) => {
     let varifiedToken = null;
     varifiedToken = jwtHelpers_1.jwtHelpers.varifyToken(token, config_1.default.jwt.refresh_secret);
@@ -41,4 +45,4 @@ const refreshToken = async (token) => {
         accessToken: newAccessToken,
     };
 };
-exports.authService = { loginUser, refreshToken };
+exports.authService = { loginUser, createUser, refreshToken };

@@ -27,6 +27,17 @@ const loginUser = (0, catchAsync_1.default)(async (req, res) => {
         },
     });
 });
+const createUser = (0, catchAsync_1.default)(async (req, res) => {
+    const userData = req.body;
+    console.log(userData);
+    const result = await auth_service_1.authService.createUser(userData);
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_1.default.OK,
+        success: true,
+        message: 'User created successfully',
+        data: result,
+    });
+});
 const refreshToken = (0, catchAsync_1.default)(async (req, res) => {
     const { refreshToken } = req.cookies;
     const result = await auth_service_1.authService.refreshToken(refreshToken);
@@ -42,4 +53,13 @@ const refreshToken = (0, catchAsync_1.default)(async (req, res) => {
         data: result,
     });
 });
-exports.AuthController = { loginUser, refreshToken };
+const todo = (0, catchAsync_1.default)(async (req, res) => {
+    const result = 'this is a test';
+    (0, sendResponse_1.default)(res, {
+        success: true,
+        statusCode: http_status_1.default.OK,
+        message: 'User logged in successfully',
+        data: result,
+    });
+});
+exports.AuthController = { loginUser, createUser, refreshToken, todo };

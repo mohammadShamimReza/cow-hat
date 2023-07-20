@@ -1,4 +1,5 @@
 import httpStatus from 'http-status';
+import { JwtPayload } from 'jsonwebtoken';
 import { SortOrder } from 'mongoose';
 import ApiError from '../../../errors/ApiError';
 import { paginationHelper } from '../../../helper/paginationHelper';
@@ -77,19 +78,38 @@ const getSingleCow = async (id: string) => {
   const result = await Cows.find({ _id: id });
   return result;
 };
-const updateSingleCow = async (id: string, updateCow: Partial<ICow>) => {
-  const result = await Cows.find({ _id: id }, updateCow);
-  return result;
-};
-
-const deleteCow = async (id: string) => {
+const updateSingleCow = async (
+  id: string,
+  updateCow: Partial<ICow>,
+  token: JwtPayload | null
+) => {
   const ifExist = await Cows.findById({ _id: id });
 
   if (!ifExist) {
     throw new ApiError(httpStatus.NOT_FOUND, 'cow not found');
   }
 
-  const result = await Cows.findByIdAndDelete({ _id: id });
+  const _id = token?._id;
+  console.log(_id);
+  const result = await Cows.findOneAndUpdate(
+    { _id: id, seller: _id },
+    updateCow,
+    { new: true }
+  );
+  console.log(result);
+  return result;
+};
+
+const deleteCow = async (id: string, token: JwtPayload | null) => {
+  const ifExist = await Cows.findById({ _id: id });
+
+  if (!ifExist) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'cow not found');
+  }
+
+  const _id = token?._id;
+
+  const result = await Cows.findOneAndDelete({ _id: id, seller: _id });
   return result;
 };
 

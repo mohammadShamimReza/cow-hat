@@ -6,9 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.OrderService = void 0;
 const http_status_1 = __importDefault(require("http-status"));
 const mongoose_1 = __importDefault(require("mongoose"));
-const config_1 = __importDefault(require("../../../config"));
 const ApiError_1 = __importDefault(require("../../../errors/ApiError"));
-const jwtHelpers_1 = require("../../../helper/jwtHelpers");
 const cow_model_1 = require("../cow/cow.model");
 const user_model_1 = require("../user/user.model");
 const order_model_1 = require("./order.model");
@@ -57,22 +55,31 @@ const getOrder = async () => {
     const result = await order_model_1.Order.find({});
     return result;
 };
-const getSingleOrder = async (orderId, accessToken) => {
-    const accessInfo = jwtHelpers_1.jwtHelpers.varifyToken(accessToken, config_1.default.jwt.secret);
-    const { role } = accessInfo;
+const getSingleOrder = async (orderId, token) => {
+    const id = token?._id;
+    const role = token?.role;
     let result;
     if (role === 'admin') {
         result = await order_model_1.Order.findById(orderId).populate(['cow', 'seller', 'buyer']);
+        return result;
     }
-    else if (role === 'buyer') {
-        result = await order_model_1.Order.find({ _id: orderId }).populate([
+    const ifExists = await user_model_1.User.findById(id);
+    if (!ifExists) {
+        throw new ApiError_1.default(http_status_1.default.NOT_FOUND, 'User not found');
+    }
+    if (role !== ifExists.role && role !== 'admin') {
+        throw new ApiError_1.default(http_status_1.default.NOT_FOUND, 'you are not authorized');
+    }
+    if (role === 'buyer') {
+        console.log(role, id);
+        result = await order_model_1.Order.find({ buyer: id }).populate([
             'cow',
             'seller',
             'buyer',
         ]);
     }
     else if (role === 'seller') {
-        result = await order_model_1.Order.find({ _id: orderId }).populate([
+        result = await order_model_1.Order.find({ seller: id }).populate([
             'cow',
             'seller',
             'buyer',
@@ -84,6 +91,7 @@ const getSingleOrder = async (orderId, accessToken) => {
     if (!result) {
         throw new ApiError_1.default(http_status_1.default.NOT_FOUND, 'not found');
     }
+    console.log(result);
     return result;
 };
 exports.OrderService = { makeOrder, getOrder, getSingleOrder };

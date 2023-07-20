@@ -9,7 +9,7 @@ const getHome = catchAsync(async (req: Request, res: Response) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'home running successfully',
+    message: 'home successfully',
     data: result,
   });
 });
