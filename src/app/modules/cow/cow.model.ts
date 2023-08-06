@@ -31,7 +31,7 @@ const cowSchema = new Schema<ICow>(
       type: String,
       required: true,
     },
-    cetagory: {
+    category: {
       type: String,
       required: true,
     },

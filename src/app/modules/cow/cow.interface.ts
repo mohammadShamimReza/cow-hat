@@ -21,7 +21,7 @@ export type ICow = {
     | 'Kankrej';
   weight: number;
   label: 'for sale' | 'sold out';
-  cetagory: 'Dairy' | 'Beef' | 'DualPurpose';
+  category: 'Dairy' | 'Beef' | 'DualPurpose';
   seller: Types.ObjectId;
 };
 export type CowModel = Model<ICow, Record<string, unknown>>;
@@ -35,5 +35,5 @@ export type ICowFilter = {
   breed?: string;
   weight?: number;
   lable?: string;
-  cetagory?: string;
+  category?: string;
 };
