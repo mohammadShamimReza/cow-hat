@@ -31,7 +31,7 @@ const cowSchema = new mongoose_1.Schema({
         type: String,
         required: true,
     },
-    cetagory: {
+    category: {
         type: String,
         required: true,
     },

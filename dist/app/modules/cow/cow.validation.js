@@ -18,7 +18,7 @@ const createCowZodSchema = zod_1.z.object({
         label: zod_1.z.enum([...cow_constant_1.CowLabel], {
             required_error: 'label is required',
         }),
-        cetagory: zod_1.z.enum([...cow_constant_1.CowCategory], {
+        category: zod_1.z.enum([...cow_constant_1.CowCategory], {
             required_error: 'category is required',
         }),
         seller: zod_1.z.string({ required_error: 'seller is required' }),
